@@ -194,23 +194,62 @@ O Spring converte automaticamente um objeto do seu código para JSON na resposta
 
 - Spring Boot — Referência: <https://docs.spring.io/spring-boot/reference/>
 
-### 7. As anotações que você vai usar
+### 7. Anotações do Spring e a anatomia de um controller
 
-O Spring usa **anotações** para saber o papel de cada classe e método. Nesta prática você vai precisar de:
+**O que é uma anotação.** Em Kotlin (e Java), uma anotação é um marcador escrito com `@` que adiciona **metadados** ao código. Ela **não executa nada sozinha**: quem lê esses marcadores é o Spring, quando a aplicação inicia.
 
-| Anotação | Papel (descubra os detalhes na documentação) |
+**Como o Spring encontra o seu controller.** A classe `JcBankApplication` tem `@SpringBootApplication`, que ativa a **varredura de componentes** (*component scan*): o Spring procura classes anotadas nos pacotes **abaixo** de `br.com.jcbank`. Por isso o controller precisa estar em um subpacote de `br.com.jcbank` (no nosso caso, `br.com.jcbank.status`) — se ficar fora, o Spring não o encontra.
+
+**As anotações desta prática:**
+
+| Anotação | O que faz |
 |---|---|
-| `@RestController` | Indica que a classe expõe endpoints HTTP e que as respostas serão serializadas (ex.: JSON). |
-| `@GetMapping` | Liga um método a uma requisição `GET` em um caminho. |
+| `@RestController` | Marca a classe como um controller web e indica que o **retorno dos métodos vai no corpo da resposta** (ex.: JSON), e não em uma tela. Equivale a `@Controller` + `@ResponseBody`. |
+| `@GetMapping` | Liga um método a requisições **`GET`**. Pode receber o caminho: `@GetMapping("/api/v1/status")`. |
+| `@RequestMapping` | *(opcional)* Define um caminho-base na classe, evitando repetir o prefixo em cada método. |
+
+**Anatomia de um controller — exemplo genérico (não é a sua tarefa):**
+
+```kotlin
+@RestController
+@RequestMapping("/api/v1/exemplo")
+class ExemploController {
+
+    @GetMapping("/ola")
+    fun ola(): OlaResponse = OlaResponse(mensagem = "olá")
+
+    data class OlaResponse(val mensagem: String)
+}
+```
+
+Lendo linha a linha:
+
+- `@RestController` na classe diz ao Spring: "esta classe atende requisições e devolve dados".
+- `@RequestMapping("/api/v1/exemplo")` define a **base** do caminho.
+- `@GetMapping("/ola")` responde a `GET /api/v1/exemplo/ola`.
+- O método devolve um **objeto**; o Spring o converte para JSON automaticamente.
+- `data class` define o **formato** da resposta (as chaves do JSON vêm dos nomes das propriedades).
+
+**O caminho de uma requisição (visão geral):**
+
+```text
+cliente → Spring (DispatcherServlet)
+        → encontra o método pelo método HTTP + caminho
+        → executa o método
+        → converte o retorno em JSON
+        → devolve a resposta
+```
 
 **Pesquise e responda:**
 
-- Qual a diferença entre `@Controller` e `@RestController`?
-- Como o Spring encontra o seu controller sem você registrá-lo em lugar nenhum?
+- Qual é a diferença entre `@Controller` e `@RestController`?
+- O que aconteceria se o controller estivesse fora do pacote `br.com.jcbank`?
+- Para que serve `@ResponseBody`?
 
 **Para se aprofundar:**
 
 - Spring — Controllers: <https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller.html>
+- Spring — Anotações de request mapping: <https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-requestmapping.html>
 - Kotlin — Data classes: <https://kotlinlang.org/docs/data-classes.html>
 - Kotlin — Anotações: <https://kotlinlang.org/docs/annotations.html>
 
