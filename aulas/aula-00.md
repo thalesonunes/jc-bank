@@ -1,14 +1,17 @@
 # Aula 00 — Ambiente e primeiro projeto
 
 > Material de estudo da primeira aula do **JC Bank**.
-> Ao final, você terá o projeto rodando na sua máquina e publicado no GitHub.
+>
+> **Como usar:** leia cada tópico, consulte as **fontes oficiais** indicadas e só depois parta para a prática. A ideia não é decorar — é entender o suficiente para construir e explicar o que você fez.
 
 ## Objetivo da aula
 
-- Criar o projeto **JC Bank** a partir do Spring Initializr.
-- Entender para que serve cada parte do projeto gerado.
-- Rodar a aplicação localmente.
-- Versionar o projeto no GitHub.
+Ao final, você será capaz de:
+
+- explicar, com suas palavras, o que é uma API REST e como uma requisição HTTP funciona;
+- reconhecer a estrutura de um projeto Spring Boot;
+- rodar a aplicação localmente;
+- versionar o código no GitHub e abrir um Pull Request.
 
 ## Pré-requisitos
 
@@ -17,31 +20,140 @@
 - **Conta no GitHub** com autenticação configurada (SSH ou token).
 - **IntelliJ IDEA** (ou outra IDE de sua preferência).
 
+---
+
 ## Conteúdo a ser estudado
 
-> Estude os tópicos abaixo antes de desenvolver a prática. Eles dão a base necessária para construir a API.
+> Estude os tópicos abaixo antes de desenvolver a prática. Cada um traz uma **explicação inicial** e **links para a documentação oficial** — aprofunde-se neles.
 
-### 1. O que é uma API
+### 1. API e REST
 
-Uma **API** é a interface que permite que um sistema converse com outro.
+**Explicação inicial.** Uma **API** é um contrato que permite que dois sistemas conversem. Na web, essa conversa acontece por **HTTP**: o cliente envia uma requisição e o servidor devolve uma resposta.
 
-No nosso caso, o cliente (navegador, Insomnia, Postman ou outro sistema) envia uma **requisição HTTP** e o servidor devolve uma **resposta**. Nesta fase **não haverá tela**: toda a comunicação será feita por requisições e respostas em **JSON**.
+**REST** é um conjunto de convenções para organizar a API em torno de **recursos** (por exemplo: clientes, contas), usando os métodos HTTP para indicar a ação.
 
-### 2. HTTP e JSON (visão geral)
+No nosso caso, o "cliente" pode ser o navegador, o Insomnia ou outro sistema. Nesta fase **não haverá tela**: toda a comunicação será por requisições e respostas em **JSON**.
 
-- **Métodos HTTP**: `GET` (buscar), `POST` (criar), `PUT`/`PATCH` (atualizar), `DELETE` (remover).
-- **Status HTTP**: `2xx` sucesso · `4xx` erro da requisição · `5xx` erro do servidor.
-  - Exemplo: `404` significa que o recurso não foi encontrado.
-- **JSON**: formato de texto com pares `chave: valor`, usado para enviar e receber dados.
+**Pesquise e responda:**
 
-### 3. Git e GitHub
+- Qual é a diferença entre uma API REST e um site comum?
+- O que significa dizer que uma API REST é *stateless*?
 
-- **Git**: controla o histórico do código na sua máquina.
-- **GitHub**: hospeda o repositório na nuvem.
-- **Fluxo básico**: `add` (seleciona) → `commit` (registra) → `push` (envia).
-- **Boas mensagens de commit**: `feat:`, `fix:`, `docs:`, `chore:`, `test:`.
+**Para se aprofundar:**
 
-### 4. A stack do projeto
+- MDN — HTTP: <https://developer.mozilla.org/en-US/docs/Web/HTTP>
+- Spring — Web MVC: <https://docs.spring.io/spring-framework/reference/web/webmvc.html>
+
+### 2. HTTP: requisição e resposta
+
+**Explicação inicial.** Toda requisição HTTP tem: **método**, **URL**, **headers** e, às vezes, **corpo**. Toda resposta tem: **status**, **headers** e, às vezes, **corpo**.
+
+**Métodos mais usados:**
+
+| Método | Uso |
+|---|---|
+| `GET` | Buscar/ler um recurso. |
+| `POST` | Criar um recurso. |
+| `PUT` | Substituir um recurso. |
+| `PATCH` | Atualizar parte de um recurso. |
+| `DELETE` | Remover um recurso. |
+
+**Famílias de status:**
+
+| Faixa | Significado | Exemplos |
+|---|---|---|
+| `2xx` | Sucesso | `200 OK`, `201 Created`, `204 No Content` |
+| `4xx` | Erro na requisição (cliente) | `400 Bad Request`, `404 Not Found`, `405 Method Not Allowed`, `409 Conflict` |
+| `5xx` | Erro no servidor | `500 Internal Server Error` |
+
+**Exemplo de requisição:**
+
+```http
+GET /api/v1/status HTTP/1.1
+Host: localhost:8080
+Accept: application/json
+```
+
+**Exemplo de resposta:**
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{ "status": "UP", "service": "jc-bank" }
+```
+
+**Pesquise e responda:**
+
+- O que diferencia `404` de `400`?
+- O que o header `Content-Type` informa?
+
+**Para se aprofundar:**
+
+- MDN — Métodos HTTP: <https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods>
+- MDN — Status HTTP: <https://developer.mozilla.org/en-US/docs/Web/HTTP/Status>
+
+### 3. JSON
+
+**Explicação inicial.** **JSON** é um formato de texto para trocar dados. Ele organiza informações em pares `chave: valor` e suporta objetos, listas, textos, números, booleanos e `null`.
+
+```json
+{
+  "status": "UP",
+  "service": "jc-bank",
+  "versao": 1,
+  "ativo": true
+}
+```
+
+O Spring converte automaticamente um objeto do seu código para JSON na resposta (e o contrário na entrada).
+
+**Pesquise e responda:**
+
+- Qual a diferença entre um objeto JSON e uma lista JSON?
+
+**Para se aprofundar:**
+
+- JSON.org: <https://www.json.org/json-en.html>
+- MDN — JSON: <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON>
+
+### 4. Git e GitHub
+
+**Explicação inicial.** **Git** controla o histórico do código na sua máquina. **GitHub** hospeda esse repositório na nuvem e permite colaboração (branches, Pull Requests).
+
+**Fluxo básico:** `add` (seleciona o que vai entrar) → `commit` (registra no histórico) → `push` (envia para o GitHub).
+
+| Comando | O que faz |
+|---|---|
+| `git status` | Mostra o estado dos arquivos. |
+| `git add <arquivo>` | Prepara um arquivo para o commit. |
+| `git commit -m "mensagem"` | Registra as mudanças. |
+| `git push` | Envia os commits para o GitHub. |
+| `git checkout -b <branch>` | Cria e entra em uma nova branch. |
+| `git log --oneline` | Mostra o histórico resumido. |
+
+**Boas mensagens de commit** seguem um prefixo que indica o tipo da mudança:
+
+| Prefixo | Uso |
+|---|---|
+| `feat` | Nova funcionalidade. |
+| `fix` | Correção de bug. |
+| `docs` | Documentação. |
+| `test` | Testes. |
+| `chore` | Manutenção/build/configuração. |
+| `refactor` | Mudança sem alterar comportamento. |
+
+**Pesquise e responda:**
+
+- O que é uma *branch* e por que não trabalhar direto na `main`?
+- O que é um *Pull Request* e quem participa dele?
+
+**Para se aprofundar:**
+
+- Pro Git Book (pt-BR): <https://git-scm.com/book/pt-br/v2>
+- GitHub Docs — Pull Requests: <https://docs.github.com/pt/pull-requests>
+
+### 5. A stack do projeto
 
 | Peça | Papel |
 |---|---|
@@ -50,7 +162,18 @@ No nosso caso, o cliente (navegador, Insomnia, Postman ou outro sistema) envia u
 | **Spring Boot** | Framework que cria o servidor e as rotas da API. |
 | **Gradle** | Ferramenta de build: compila, baixa dependências e executa. |
 
-### 5. Estrutura do projeto
+**Pesquise e responda:**
+
+- O que o Spring Boot faz que o Spring "puro" não faz sozinho?
+- Para que serve o arquivo `build.gradle.kts`?
+
+**Para se aprofundar:**
+
+- Kotlin: <https://kotlinlang.org/docs/home.html>
+- Spring Boot: <https://docs.spring.io/spring-boot/>
+- Gradle: <https://docs.gradle.org/current/userguide/userguide.html>
+
+### 6. Estrutura do projeto Spring Boot
 
 | Arquivo / pasta | Para que serve |
 |---|---|
@@ -62,48 +185,135 @@ No nosso caso, o cliente (navegador, Insomnia, Postman ou outro sistema) envia u
 | `JcBankApplication.kt` | Ponto de entrada: onde a aplicação inicia. |
 | `.gitignore` | Lista de arquivos que não devem ir para o Git. |
 
+**Pesquise e responda:**
+
+- O que acontece ao executar o método `main` de `JcBankApplication`?
+- Por que `src/main` e `src/test` são separados?
+
+**Para se aprofundar:**
+
+- Spring Boot — Referência: <https://docs.spring.io/spring-boot/reference/>
+
+### 7. As anotações que você vai usar
+
+O Spring usa **anotações** para saber o papel de cada classe e método. Nesta prática você vai precisar de:
+
+| Anotação | Papel (descubra os detalhes na documentação) |
+|---|---|
+| `@RestController` | Indica que a classe expõe endpoints HTTP e que as respostas serão serializadas (ex.: JSON). |
+| `@GetMapping` | Liga um método a uma requisição `GET` em um caminho. |
+
+**Pesquise e responda:**
+
+- Qual a diferença entre `@Controller` e `@RestController`?
+- Como o Spring encontra o seu controller sem você registrá-lo em lugar nenhum?
+
+**Para se aprofundar:**
+
+- Spring — Controllers: <https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller.html>
+- Kotlin — Data classes: <https://kotlinlang.org/docs/data-classes.html>
+- Kotlin — Anotações: <https://kotlinlang.org/docs/annotations.html>
+
 ---
 
 ## Prática da semana
 
-### Objetivo
+### Contexto
 
-Criar o **primeiro endpoint** da API e publicá-lo em uma branch com **Pull Request**.
+O primeiro endpoint serve para confirmar que a aplicação está no ar e que o caminho **requisição → controller → resposta** funciona. É o "olá, mundo" da API — e a base para tudo que virá depois.
 
-### O que fazer
+### Especificação do endpoint (contrato)
 
-1. **Crie uma branch** a partir da `main`:
-   ```bash
-   git checkout -b feat/status-endpoint
-   ```
+| Item | Valor |
+|---|---|
+| Método | `GET` |
+| Caminho | `/api/v1/status` |
+| Autenticação | Nenhuma |
+| Corpo da requisição | Vazio |
+| Status de sucesso | `200 OK` |
+| `Content-Type` da resposta | `application/json` |
 
-2. **Crie um `StatusController`** com o endpoint `GET /api/v1/status`, retornando:
-   ```json
-   { "status": "UP", "service": "jc-bank" }
-   ```
-   Use uma **`data class`** para representar a resposta (não use `Map`).
+**Corpo da resposta:**
 
-3. **Rode e teste**:
+```json
+{
+  "status": "UP",
+  "service": "jc-bank"
+}
+```
+
+**Contrato dos campos:**
+
+| Campo | Tipo | Regra |
+|---|---|---|
+| `status` | texto | Sempre `"UP"`. |
+| `service` | texto | Sempre `"jc-bank"`. |
+
+**Comportamentos esperados:**
+
+- Caminho diferente de `/api/v1/status` → `404 Not Found`.
+- Método diferente de `GET` (ex.: `POST`) → `405 Method Not Allowed`.
+
+### Requisitos técnicos
+
+- Criar o controller no pacote `br.com.jcbank.status`.
+- Usar `@RestController` e `@GetMapping`.
+- Representar a resposta com uma **`data class`** (não use `Map`).
+- Não adicionar dependências novas ao projeto.
+
+### Entregáveis
+
+- Branch `feat/status-endpoint` criada a partir da `main`.
+- Commits pequenos, com mensagens claras.
+- **Pull Request** para a `main`, com descrição e o relatório abaixo.
+
+### Critérios de aceite
+
+- [ ] `GET /api/v1/status` responde `200`.
+- [ ] A resposta tem `Content-Type: application/json`.
+- [ ] O corpo contém exatamente `status: "UP"` e `service: "jc-bank"`.
+- [ ] Um caminho errado responde `404`.
+- [ ] Um método errado (ex.: `POST`) responde `405`.
+- [ ] O retorno usa uma `data class`.
+- [ ] O código está no pacote `br.com.jcbank.status`.
+- [ ] O PR foi aberto a partir da branch `feat/status-endpoint`.
+
+### Como testar
+
+1. Rode a aplicação:
    ```bash
    ./gradlew bootRun
    ```
-   Acesse `http://localhost:8080/api/v1/status` no navegador ou em um cliente de API.
+2. No navegador, acesse `http://localhost:8080/api/v1/status`.
+3. Pelo terminal, confira status e headers:
+   ```bash
+   curl -i http://localhost:8080/api/v1/status
+   ```
+4. Teste os casos de erro:
+   ```bash
+   curl -i http://localhost:8080/api/v1/nao-existe   # esperado: 404
+   curl -i -X POST http://localhost:8080/api/v1/status   # esperado: 405
+   ```
 
-4. **Faça commits pequenos** com mensagens claras e abra um **Pull Request** para a `main`.
+### Relatório do Pull Request
 
-5. **No Pull Request, escreva um relatório** respondendo:
-   - O que acontece se você mudar a porta do servidor? Mostre como rodar em outra porta.
-   - Quebre algo de propósito (por exemplo, um erro de sintaxe) e conte o que você observou.
-   - Para que serve o `build.gradle.kts`? O que o **Gradle Wrapper** resolve?
+Escreva, com suas palavras:
 
-### Critérios de avaliação
+1. O que o `@RestController` faz? (consulte a documentação oficial)
+2. Por que usamos uma `data class` em vez de um `Map`?
+3. O que acontece ao mudar a porta do servidor? Mostre como rodar em outra porta.
+4. Quebre algo de propósito (por exemplo, um erro de sintaxe) e conte o que você observou.
+5. Para que serve o `build.gradle.kts`? O que o **Gradle Wrapper** resolve?
+
+### Rubrica de avaliação
 
 | Critério | O que será observado |
 |---|---|
-| Funciona | `GET /api/v1/status` responde `200` com o JSON correto. |
-| Código | `@RestController` e `@GetMapping` usados corretamente, no pacote certo, com retorno em `data class`. |
-| Git | Branch `feat/status-endpoint`, commits pequenos e mensagens claras, PR com descrição. |
-| Compreensão | Relatório com os experimentos, escrito com suas palavras. |
+| Funciona | Endpoint responde `200` com o JSON especificado. |
+| Comportamento | `404` em caminho errado e `405` em método errado. |
+| Código | `@RestController`/`@GetMapping` corretos, pacote certo, retorno em `data class`. |
+| Git | Branch, commits pequenos e mensagens claras, PR com descrição. |
+| Compreensão | Relatório com os experimentos e explicações com suas palavras. |
 
 ### Bônus (opcional)
 
@@ -111,8 +321,22 @@ Criar o **primeiro endpoint** da API e publicá-lo em uma branch com **Pull Requ
 
 ---
 
-## Dicas
+## Fontes oficiais
 
-- Leia a mensagem de erro com calma: ela costuma indicar o arquivo e a linha.
-- Faça commits pequenos — fica mais fácil voltar atrás se algo der errado.
-- Se travar em algo, anote a dúvida e traga para a próxima aula.
+Consulte sempre a documentação antes de fóruns ou vídeos:
+
+- **HTTP / JSON** — MDN: <https://developer.mozilla.org/en-US/docs/Web/HTTP>
+- **Git** — Pro Git Book (pt-BR): <https://git-scm.com/book/pt-br/v2>
+- **GitHub** — Documentação: <https://docs.github.com/pt>
+- **Kotlin** — Documentação: <https://kotlinlang.org/docs/home.html>
+- **Spring Boot** — Documentação: <https://docs.spring.io/spring-boot/>
+- **Spring Framework** — Web MVC: <https://docs.spring.io/spring-framework/reference/web/webmvc.html>
+- **Gradle** — Guia do usuário: <https://docs.gradle.org/current/userguide/userguide.html>
+
+## Dicas de estudo
+
+- Leia a documentação oficial **antes** de procurar soluções prontas.
+- Explique o conceito com suas palavras; se não conseguir, volte ao material.
+- Não copie código sem entender — você vai precisar explicar o que fez.
+- Faça commits pequenos; fica mais fácil voltar atrás se algo der errado.
+- Anote as dúvidas que surgirem e traga para a próxima aula.
