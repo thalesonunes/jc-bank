@@ -2,7 +2,7 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.jpeg">
     <source media="(prefers-color-scheme: light)" srcset="assets/logo-light.jpeg">
-    <img alt="JC Bank" src="assets/logo-light.jpeg" width="280">
+    <img alt="JC Bank" src="assets/logo-light.jpeg" width="100%">
   </picture>
 </p>
 
