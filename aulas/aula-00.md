@@ -17,7 +17,9 @@
 - **Conta no GitHub** com autenticação configurada (SSH ou token).
 - **IntelliJ IDEA** (ou outra IDE de sua preferência).
 
-## Conteúdos estudados
+## Conteúdo a ser estudado
+
+> Estude os tópicos abaixo antes de desenvolver a prática. Eles dão a base necessária para construir a API.
 
 ### 1. O que é uma API
 

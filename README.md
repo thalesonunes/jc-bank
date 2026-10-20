@@ -20,7 +20,7 @@ Nesta fase inicial, o projeto apenas sobe o servidor — as funcionalidades ser�
 
 ## Material das aulas
 
-Os conteúdos e as práticas de cada aula ficam em [`aulas/`](aulas/README.md).
+- [Aula 00 — Ambiente e primeiro projeto](aulas/aula-00.md)
 
 ## Tecnologias
 
