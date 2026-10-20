@@ -105,7 +105,6 @@ Criar o **primeiro endpoint** da API e publicá-lo em uma branch com **Pull Requ
 
 ### Bônus (opcional)
 
-- Trocar `application.properties` por `application.yml`.
 - Documentar o novo endpoint no `README.md`.
 
 ---

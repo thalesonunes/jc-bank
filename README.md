@@ -18,6 +18,10 @@ Nesta fase inicial, o projeto apenas sobe o servidor — as funcionalidades ser�
 
 > Projeto de estudo. Não deve ser usado em produção.
 
+## Material das aulas
+
+Os conteúdos e as práticas de cada aula ficam em [`aulas/`](aulas/README.md).
+
 ## Tecnologias
 
 - Kotlin
