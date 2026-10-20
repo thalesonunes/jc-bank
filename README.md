@@ -8,7 +8,7 @@
 
 # JC Bank
 
-API de banco digital simples, criada para fins de estudo com **Kotlin** e **Spring Boot**.
+API de banco digital criada para fins de estudo com **Kotlin** e **Spring Boot**.
 
 ## Sobre o projeto
 
