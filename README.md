@@ -16,7 +16,7 @@ O JC Bank é uma API REST que vai permitir cadastrar clientes, abrir contas e re
 
 Nesta fase inicial, o projeto apenas sobe o servidor — as funcionalidades serão adicionadas aos poucos, junto com o aprendizado.
 
-> Projeto de estudo. Não deve ser usado em produção.
+> Projeto de estudo, utilizado como material em um projeto de mentoria. Não deve ser usado em produção.
 
 ## Material das aulas
 
