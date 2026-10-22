@@ -21,6 +21,7 @@ Nesta fase inicial, o projeto apenas sobe o servidor — as funcionalidades ser�
 ## Material das aulas
 
 - [Aula 00 — Ambiente e primeiro projeto](aulas/aula-00.md)
+- [Aula 01 — REST, Controller e DTO](aulas/aula-01.md)
 
 ## Tecnologias
 
